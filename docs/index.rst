@@ -1,0 +1,5 @@
+===============
+medialog.globe
+===============
+
+User documentation

@@ -1,0 +1,16 @@
+<registry>
+
+  <record name="plone.app.standardtiles.listing_views">
+    <field type="plone.registry.field.Dict">
+      <key_type type="plone.registry.field.TextLine"/>
+      <title>Listing Views</title>
+      <value_type type="plone.registry.field.TextLine"/>
+    </field>
+    <value>
+      <element key="listing_view">Listing view</element>
+      <element key="summary_view">Summary view</element>
+      <element key="tabular_view">Tabular view</element>
+       <element key="globe_view">Globe view</element>
+    </value>
+  </record>
+</registry>

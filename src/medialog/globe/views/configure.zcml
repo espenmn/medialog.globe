@@ -1,0 +1,34 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="medialog.globe">
+
+    <include package="plone.app.contentmenu" />
+
+
+      <browser:pages
+          for="plone.app.contenttypes.interfaces.ICollection"
+          class="plone.app.contenttypes.browser.collection.CollectionView"
+          permission="zope2.View">
+
+          <browser:page
+              name="globe_view"
+              template="globe_view.pt"
+            />
+      </browser:pages>
+
+
+
+      <browser:menuItems
+            for="plone.app.contenttypes.interfaces.ICollection"
+            menu="plone_displayviews">
+
+          <browser:menuItem
+              title="Globe view"
+              action="globe_view"
+              />
+
+      </browser:menuItems>
+
+</configure>
