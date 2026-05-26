@@ -8,7 +8,7 @@
 
 
       <browser:pages
-          for="plone.app.contenttypes.interfaces.ICollection"
+          for="*"
           class="plone.app.contenttypes.browser.collection.CollectionView"
           permission="zope2.View">
 
