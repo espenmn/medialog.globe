@@ -33,38 +33,40 @@
                 item_type_class python: '' ;
                 ">
             <!-- <header metal:define-macro="listitem" tal:attributes="class python:'vevent' if item_type=='Event' else None"> -->
-              <!--div class="globe-div"-->
+            <!--div class="globe-div"-->
 
-              <a href="#" tal:condition="item_has_image" tal:attributes="href item_url">
-                <img tal:condition="item_has_image" tal:attributes="src string:${item/getURL}/@@images/image/preview" alt=""/>
+            <a href="#" tal:condition="item_has_image" tal:attributes="href item_url">
+              <img tal:condition="item_has_image" tal:attributes="src string:${item/getURL}/@@images/image/preview" alt=""/>
+            </a>
+            <div class="media-body padding-0-20">
+              <a href="${item_url}">
+                <h2 class="media-heading black margin-10-0">${item_title}</h2>
               </a>
-              <div class="media-body padding-0-20">
-                <a href="${item_url}">
-                  <h2 class="media-heading black margin-10-0">${item_title}</h2>
-                </a>
-                <!-- p class="work-title"><i>${item/Description}</i></p-->
-                <a href="${item_url}">
-                  <button class="plone-background-2 white margin-10-0">Lees verder</button>
-                </a>
-              </div>
+              <!-- p class="work-title"><i>${item/Description}</i></p-->
+              <a href="${item_url}">
+                <button class="plone-background-2 white margin-10-0">Lees verder</button>
+              </a>
+            </div>
 
-            </article>
+          </article>
 
 
-          </tal:entry>
+        </tal:entry>
 
 
 
 
-        </tal:listing>
+      </tal:listing>
+      <div>
         <div metal:use-macro="original_context/batch_macros/macros/navigation"></div>
-        <p class="text-bg-secondary" tal:condition="not:batch" i18n:translate="">
+      </div>
+      <p class="text-bg-secondary" tal:condition="not:batch" i18n:translate="">
         There are currently no items in this folder.
-        </p>
-      </tal:defines>
+      </p>
+    </tal:defines>
 
 
-      <style>
+    <style>
 
   div.entries { display: flex; flex-wrap: wrap;
      max-width: 1200px;
@@ -256,7 +258,7 @@
 
 .clear-both {clear: both;}
 
-      </style>
+    </style>
 
-    </body>
-  </html>
+  </body>
+</html>
