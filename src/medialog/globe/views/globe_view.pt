@@ -53,13 +53,13 @@
 
         </tal:entry>
 
-
-
-
-      </tal:listing>
       <div>
         <div metal:use-macro="original_context/batch_macros/macros/navigation"></div>
       </div>
+
+
+      </tal:listing>
+
       <p class="text-bg-secondary" tal:condition="not:batch" i18n:translate="">
         There are currently no items in this folder.
       </p>
