@@ -6,7 +6,7 @@
       <value_type type="plone.registry.field.TextLine"/>
     </field>
     <value>
-      <element key="globe_view">Globe view</element>
+      <element key="globe_view">X Globe view</element>
     </value>
   </record>
 </registry>

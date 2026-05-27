@@ -7,16 +7,25 @@
     <include package="plone.app.contentmenu" />
 
 
-      <browser:pages
+      <browser:page
           for="plone.app.contenttypes.interfaces.ICollection"
           class="plone.app.contenttypes.browser.collection.CollectionView"
+          permission="zope2.View"
+          name="globe_view"
+          template="globen_view.pt"
+      />
+
+      <browser:pages
+          for="*"
+          class=".globe_view.GlobeView"
           permission="zope2.View">
 
           <browser:page
               name="globe_view"
               template="globe_view.pt"
-            />
+          />
       </browser:pages>
+ 
 
 
 

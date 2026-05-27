@@ -1,26 +1,36 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      lang="en"
-      xml:lang="en"
-      i18n:domain="plone"
->
-  <body>
-    <tal:defines define="
-                   batch context;
-                   original_context nocall:options/original_context|context;
-                   toLocalizedTime nocall:original_context/@@plone/toLocalizedTime;
-                   pas_member nocall:original_context/@@pas_member;
-                   show_about python:True;
-                   registry original_context/portal_registry;
-                   view_types python: registry.get('plone.types_use_view_action_in_listings', []);
-                 ">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    lang="en"
+    metal:use-macro="context/@@main_template/macros/master"
+    i18n:domain="plone">
+<body>
+
+<metal:content-core fill-slot="content-core">
+<metal:block define-macro="content-core">
+
+  <div metal:define-macro="text-field-view"
+      id="parent-fieldname-text" class="stx"
+      tal:define="text view/text"
+      tal:condition="text"
+      tal:attributes="class view/text_class">
+    <div metal:define-slot="inside" tal:replace="structure text">The body</div>
+  </div>
+
+  <metal:listingmacro define-macro="listing">
+    <tal:results define="batch view/batch;
+                         thumb_scale_list view/get_thumb_scale_list;
+                         thumb_scale_table view/get_thumb_scale_table;
+                         thumb_scale_summary view/get_thumb_scale_summary;
+                         img_class python:'thumb-%s pull-right' % thumb_scale_list;
+                         showicons view/show_icons">
       <tal:listing condition="batch">
-     
-          <tal:entry repeat="item batch">
-                <article class="entry" 
-                tal:define="obj item/getObject;
+        <div class="entries" metal:define-slot="entries"
+            tal:define="portal context/@@plone_portal_state/portal;
+                        image_scale portal/@@image_scale">
+          <tal:repeat repeat="item batch" metal:define-macro="entries">
+            <tal:block tal:define="obj item/getObject;
                 item_url item/getURL;
                 item_id item/getId;
                 item_title item/Title;
@@ -30,10 +40,15 @@
                 item_modified item/ModificationDate;
                 item_created item/CreationDate;
                 item_wf_state item/review_state;
+                item_wf_state_class python:'state-' + view.normalizeString(item_wf_state);
                 item_creator item/Creator;
-                item_is_event False;
-                item_has_image python:item.getIcon; 
+                item_link python:item_type in view.use_view_action and item_url+'/view' or item_url;
+                item_is_event python:view.is_event(obj);
+                item_has_image python:item.getIcon;
+                item_type_class python:('contenttype-' + view.normalizeString(item_type)) if showicons else '' ;
                 ">
+              <metal:block define-slot="entry">
+                <article class="entry">
                   <header metal:define-macro="listitem" tal:attributes="class python:'vevent' if item_is_event else None">
                   <!--div class="globe-div"-->
 
@@ -56,20 +71,28 @@
 
 
                 </article>
+              </metal:block>
+            </tal:block>
+          </tal:repeat>
+        </div>
 
-            
-          </tal:entry>
-      
-        <div metal:use-macro="original_context/batch_macros/macros/navigation"></div>
+        <div metal:use-macro="context/batch_macros/macros/navigation" />
+
       </tal:listing>
-      <p class="text-bg-secondary"
-         tal:condition="not:batch"
-         i18n:translate=""
-      >
-        There are currently no items in this folder.
-      </p>
-    </tal:defines>
 
+      <metal:empty metal:define-slot="no_items_in_listing">
+        <p class="discreet"
+            tal:condition="not: view/batch"
+            tal:content="view/no_items_message">
+          There are currently no items in this folder.
+        </p>
+      </metal:empty>
+
+
+    </tal:results>
+  </metal:listingmacro>
+
+</metal:block>
 
 <style>
 
@@ -264,6 +287,7 @@
 .clear-both {clear: both;}
 
 </style>
+</metal:content-core>
 
-  </body>
+</body>
 </html>
