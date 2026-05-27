@@ -13,6 +13,7 @@
                    view_types python: registry.get('plone.types_use_view_action_in_listings', []);
                  ">
       <tal:listing condition="batch">
+      <div>
 
         <tal:entry repeat="item batch">
           <article class="entry" tal:define="obj item/getObject;
@@ -52,6 +53,7 @@
 
 
         </tal:entry>
+        </div>
 
       <div>
         <div metal:use-macro="original_context/batch_macros/macros/navigation"></div>
@@ -68,6 +70,8 @@
 
     <style>
 
+
+   
   div.entries { display: flex; flex-wrap: wrap;
      max-width: 1200px;
   }
