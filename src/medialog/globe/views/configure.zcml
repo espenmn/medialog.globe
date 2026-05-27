@@ -7,13 +7,8 @@
     <include package="plone.app.contentmenu" />
 
 
-<<<<<<< HEAD
       <browser:page
           for="plone.app.contenttypes.interfaces.ICollection"
-=======
-      <browser:pages
-          for="*"
->>>>>>> 07cf954b0f4c262d091574bfa3539c65db9a6e24
           class="plone.app.contenttypes.browser.collection.CollectionView"
           permission="zope2.View"
           name="globe_view"

@@ -30,11 +30,14 @@
                 item_modified item/ModificationDate;
                 item_created item/CreationDate;
                 item_wf_state item/review_state;
+                showicons view/show_icons|None;
+                item_wf_state_class python:'state-' + (item_wf_state or '');
                 item_creator item/Creator;
-                item_is_event False;
-                item_has_image python:item.getIcon; 
+                item_link item_url;
+                item_has_image python:item.getIcon;
+                item_type_class python: '' ;
                 ">
-                  <header metal:define-macro="listitem" tal:attributes="class python:'vevent' if item_is_event else None">
+                  <header metal:define-macro="listitem" tal:attributes="class python:'vevent' if item_type=='Event' else None">
                   <!--div class="globe-div"-->
 
                     <a href="#" tal:condition="item_has_image"
