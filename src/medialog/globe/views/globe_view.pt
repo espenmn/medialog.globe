@@ -1,11 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      lang="en"
-      xml:lang="en"
-      i18n:domain="plone"
->
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  xmlns:tal="http://xml.zope.org/namespaces/tal" lang="en" xml:lang="en" i18n:domain="plone">
   <body>
     <tal:defines define="
                    batch context;
@@ -17,10 +13,9 @@
                    view_types python: registry.get('plone.types_use_view_action_in_listings', []);
                  ">
       <tal:listing condition="batch">
-     
-          <tal:entry repeat="item batch">
-                <article class="entry" 
-                tal:define="obj item/getObject;
+
+        <tal:entry repeat="item batch">
+          <article class="entry" tal:define="obj item/getObject;
                 item_url item/getURL;
                 item_id item/getId;
                 item_title item/Title;
@@ -37,44 +32,38 @@
                 item_has_image python:item.getIcon;
                 item_type_class python: '' ;
                 ">
-                  <header metal:define-macro="listitem" tal:attributes="class python:'vevent' if item_type=='Event' else None">
-                  <!--div class="globe-div"-->
+            <!-- <header metal:define-macro="listitem" tal:attributes="class python:'vevent' if item_type=='Event' else None"> -->
+              <!--div class="globe-div"-->
 
-                    <a href="#" tal:condition="item_has_image"
-                       tal:attributes="href item_url">
-                       <img tal:condition="item_has_image"
-                          tal:attributes="src string:${item/getURL}/@@images/image/preview"
-                          alt=""/>
-                   </a>
-                   <div class="media-body padding-0-20">
-                      <a href="${item_url}">
-                          <h2 class="media-heading black margin-10-0">${item_title}</h2>
-                      </a>
-                            <!-- p class="work-title"><i>${item/Description}</i></p-->
-                      <a href="${item_url}">
-                           <button class="plone-background-2 white margin-10-0">Lees verder</button>
-                      </a>
-                    </div><!--media-body-->
-                  <!--/div--><!--globe-div-->
+              <a href="#" tal:condition="item_has_image" tal:attributes="href item_url">
+                <img tal:condition="item_has_image" tal:attributes="src string:${item/getURL}/@@images/image/preview" alt=""/>
+              </a>
+              <div class="media-body padding-0-20">
+                <a href="${item_url}">
+                  <h2 class="media-heading black margin-10-0">${item_title}</h2>
+                </a>
+                <!-- p class="work-title"><i>${item/Description}</i></p-->
+                <a href="${item_url}">
+                  <button class="plone-background-2 white margin-10-0">Lees verder</button>
+                </a>
+              </div>
+
+            </article>
 
 
-                </article>
-
-            
           </tal:entry>
-      
-        <div metal:use-macro="original_context/batch_macros/macros/navigation"></div>
-      </tal:listing>
-      <p class="text-bg-secondary"
-         tal:condition="not:batch"
-         i18n:translate=""
-      >
+
+
+
+          <div metal:use-macro="original_context/batch_macros/macros/navigation"></div>
+        </tal:listing>
+        <p class="text-bg-secondary" tal:condition="not:batch" i18n:translate="">
         There are currently no items in this folder.
-      </p>
-    </tal:defines>
+        </p>
+      </tal:defines>
 
 
-<style>
+      <style>
 
   div.entries { display: flex; flex-wrap: wrap;
      max-width: 1200px;
@@ -266,7 +255,7 @@
 
 .clear-both {clear: both;}
 
-</style>
+      </style>
 
-  </body>
-</html>
+    </body>
+  </html>
