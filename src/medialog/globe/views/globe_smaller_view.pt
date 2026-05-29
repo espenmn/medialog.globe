@@ -42,7 +42,7 @@
                 ">
                     <metal:block define-slot="entry">
                       <article class="entry">
-                        <header metal:define-macro="listitem" tal:attributes="class python:'vevent' if item_is_event else None"/>
+                        
                         <!--div class="globe-div"-->
 
                         <a href="#" tal:condition="item_has_image" tal:attributes="href item_url" tal:define="scales obj/@@images">
