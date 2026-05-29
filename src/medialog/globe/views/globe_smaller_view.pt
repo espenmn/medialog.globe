@@ -1,0 +1,284 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n" lang="en" metal:use-macro="context/@@main_template/macros/master" i18n:domain="plone">
+  <body>
+
+    <metal:content-core fill-slot="content-core">
+      <metal:block define-macro="content-core">
+
+        <div metal:define-macro="text-field-view" id="parent-fieldname-text" class="stx" tal:define="text view/text" tal:condition="text" tal:attributes="class view/text_class">
+          <div metal:define-slot="inside" tal:replace="structure text">The body</div>
+        </div>
+
+        <metal:listingmacro define-macro="listing">
+          <tal:results define="batch view/batch;
+                         thumb_scale_list view/get_thumb_scale_list;
+                         thumb_scale_table view/get_thumb_scale_table;
+                         thumb_scale_summary view/get_thumb_scale_summary;
+                         img_class python:'thumb-%s pull-right' % thumb_scale_list;
+                         showicons view/show_icons">
+            <tal:listing condition="batch">
+              <div class="entries" metal:define-slot="entries" tal:define="portal context/@@plone_portal_state/portal;
+                        image_scale portal/@@image_scale">
+                <tal:repeat repeat="item batch" metal:define-macro="entries">
+                  <tal:block tal:define="obj item/getObject;
+                item_url item/getURL;
+                item_id item/getId;
+                item_title item/Title;
+                item_title python:item_title or item_id;
+                item_description item/Description;
+                item_type item/PortalType;
+                item_modified item/ModificationDate;
+                item_created item/CreationDate;
+                item_wf_state item/review_state;
+                item_wf_state_class python:'state-' + view.normalizeString(item_wf_state);
+                item_creator item/Creator;
+                item_link python:item_type in view.use_view_action and item_url+'/view' or item_url;
+                item_is_event python:view.is_event(obj);
+                item_has_image python:item.getIcon;
+                obj item/getObject;
+                item_type_class python:('contenttype-' + view.normalizeString(item_type)) if showicons else '' ;
+                ">
+                    <metal:block define-slot="entry">
+                      <article class="entry">
+                        <header metal:define-macro="listitem" tal:attributes="class python:'vevent' if item_is_event else None"/>
+                        <!--div class="globe-div"-->
+
+                        <a href="#" tal:condition="item_has_image" tal:attributes="href item_url" tal:define="scales obj/@@images">
+                          <img tal:condition="item_has_image" 
+                            tal:define="thumb python: scales.scale('image', width=400, height=440, direction='contain')" tal:attributes="src thumb/url;
+                                        width thumb/width;
+                                        height thumb/height" alt="" /> 
+                        </a>
+                        <div class="media-body padding-0-20">
+                          <a href="${item_url}">
+                            <h2 class="media-heading smaller black margin-10-0">${item_title}</h2>
+                          </a>
+                          <!-- p class="work-title"><i>${item/Description}</i></p-->
+                          <a href="${item_url}">
+                            <button class="plone-background-2 white margin-10-0">Lees verder</button>
+                          </a>
+                        </div>                        <!--media-body-->
+                        <!--/div-->                        <!--globe-div-->
+
+
+                      </article>
+                    </metal:block>
+                  </tal:block>
+                </tal:repeat>
+              </div>
+
+              <div metal:use-macro="context/batch_macros/macros/navigation" />
+
+            </tal:listing>
+
+            <metal:empty metal:define-slot="no_items_in_listing">
+              <p class="discreet" tal:condition="not: view/batch" tal:content="view/no_items_message">
+          There are currently no items in this folder.
+              </p>
+            </metal:empty>
+
+
+          </tal:results>
+        </metal:listingmacro>
+
+      </metal:block>
+
+      <style>
+
+  div.entries { display: flex; flex-wrap: wrap;
+     max-width: 1200px;
+  }
+
+  .margin-10-0 {margin: 10}
+
+  #content-core {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+
+  text-align-center {
+  text-align: center;
+  }
+  .padding-5-10 {
+    padding: 5px 10px;
+    text-align: center;
+  }
+
+  li.filterItem  a span {
+    color: #041c2c;
+    font-weight: bold !important;
+  }
+
+  li.filterItem.selected  a span   {
+    color: #da291b;
+  }
+
+  li.filterItem a::before {
+    content: "/" !important;
+    color: #041c2c;
+  }
+
+   
+  .seksjons_block {
+    padding: 0 80px;
+    text-align: center;
+  }
+
+  .seksjons_block .container {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  .seksjons_block h1 {
+    font-size: 52px;
+  }
+
+  .seksjons_block p {
+    font-size: 1.9em;
+    max-width: 800px;
+    margin: auto;
+  }
+
+  div.portletContent.filterContent,
+  .portletWrapper,
+  .portlet {
+    border-color: none !important;
+    box-shadow: none !important;
+    background: none !important;
+    border-top: 0 none  !important;
+  }
+
+
+
+  #above-portlets-wrapper div.container.flex,
+
+          #aboveall-portlets-wrapper div.container.flex {
+    max-width: 1200px;
+  }
+
+  article.entry{
+    float: left;
+    min-height: 400px;
+    text-align: center;
+    background: whitesmoke;
+    margin: 10px;
+  }
+
+  article.entrybutton {
+  border-color: white;
+  }
+
+  .template-globee-view  .portletWrapper {
+    width: 100%;
+    margin: 0;
+  }
+
+  .template-globee-view  header.portletHeader {
+    margin: 1em 0 0 0;
+    padding: 0 14px;
+    font-size: 100%;
+    display: none;
+  }
+
+  li.filterItem.filter-skade. {
+    display: flex;
+  }
+
+  .collectionFilter.pat-collectionfilter div.portletContent.filterContent ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+
+
+  h1.documentFirstHeading {
+    text-align: center;
+    display: none;
+  }
+
+  .globe-div {
+    margin: 15px !important;
+
+    float: left;
+  }
+
+  #content-core div.globe-div.white-background a img {
+    height: 25%;
+    width:  100%;
+    object-position: 0 0;
+    object-fit: cover;
+  }
+
+  .globe-div  a {
+    text-decoration: none !important;
+    border-bottom: 0 none !important;
+  }
+
+  body.template-globe-view .outer-wrapper {
+    xbackground: whitesmoke;
+    xpadding-top: 175px;
+  }
+
+  body.template-globee-view h1.documentFirstHeading {
+    border-bottom: 0;
+    text-align: center;
+  }
+
+  body.template-globee-view div.media-body.padding-20 p a {
+    border-style: none;
+  }
+
+  body.template-globee-viewv h2.media-heading {
+    margin-top: 0;
+  }
+
+  body.template-globee-view div.media-body hr {
+    border-color: whitesmoke;
+    margin-top: 10px;
+  }
+
+  p.work-title {
+    margin-bottom: 30px;
+  }
+
+  article.entry{
+    width: calc(25% - 30px);
+    min-width: 240px;
+    max-width: 400px;
+  }
+
+  article.entry p.eposten a {
+    font-size: 85%;
+  }
+
+  @media (max-width:1000px) {
+
+  article.entry{
+    width: 45%;
+    min-width: 250px;
+    max-width: 300px;
+  }
+
+  }
+
+  @media (max-width:550px) {
+
+  article.entry{
+    width: auto;
+    min-width: 250px;
+    max-width: 100%;
+  }
+
+}
+
+
+.clear-both {clear: both;}
+
+      </style>
+    </metal:content-core>
+
+  </body>
+</html>

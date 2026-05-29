@@ -15,6 +15,14 @@
           template="globen_view.pt"
       />
 
+     <browser:page
+          for="plone.app.contenttypes.interfaces.ICollection"
+          class="plone.app.contenttypes.browser.collection.CollectionView"
+          permission="zope2.View"
+          name="globe_smaller_view"
+          template="globe_smaller_view.pt"
+      />
+
       <browser:pages
           for="*"
           class=".globe_view.GlobeView"
@@ -24,10 +32,13 @@
               name="globe_view"
               template="globe_view.pt"
           />
+
+          <browser:page
+              name="dutchlisting_view"
+              template="dutchlisting_view.pt"
+          />
+          
       </browser:pages>
- 
-
-
 
       <browser:menuItems
             for="plone.app.contenttypes.interfaces.ICollection"
@@ -36,6 +47,11 @@
           <browser:menuItem
               title="Globe view"
               action="globe_view"
+              />
+
+          <browser:menuItem
+              title="Globe Smaller view"
+              action="globe_smaller_view"
               />
 
       </browser:menuItems>
